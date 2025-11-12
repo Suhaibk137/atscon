@@ -40,6 +40,11 @@ app.get('/api/health', (req, res) => {
     res.json({ status: 'ok', message: 'Server is running' });
 });
 
+// Root endpoint
+app.get('/', (req, res) => {
+    res.json({ status: 'ok', message: 'Resume Converter API is running' });
+});
+
 // Main conversion endpoint
 app.post('/api/convert', upload.single('resume'), async (req, res) => {
     try {
@@ -513,3 +518,11 @@ app.use((req, res) => {
 
 // Export for Vercel
 module.exports = app;
+
+// For local development
+if (process.env.NODE_ENV !== 'production') {
+    const PORT = process.env.PORT || 3000;
+    app.listen(PORT, () => {
+        console.log(`Resume converter server running at http://localhost:${PORT}`);
+    });
+}
